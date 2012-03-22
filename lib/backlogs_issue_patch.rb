@@ -154,7 +154,7 @@ module Backlogs
                 j.details << JournalDetail.new(:property => 'attr', :prop_key => 'fixed_version_id', :old_value => task.fixed_version_id, :value => fixed_version_id)
               when :chiliproject
                 j.created_at = self.updated_on
-                j.details << {'fixed_version_id' => [task.fixed_version_id, self.fixed_version_id]}
+                j.details['fixed_version_id'] = [task.fixed_version_id, self.fixed_version_id]}
             end
             j.user = User.current
             j.save!
