@@ -87,7 +87,7 @@ When /^I (try to )?move the (\d+)(?:st|nd|rd|th) story to the (\d+|last)(?:st|nd
   @story = RbStory.find(story.text.to_i)
 end
 
-When /^I request the server_variables resource$/ do
+When /^I (try to )?request the server_variables resource$/ do |attempt|
   visit url_for(:controller => :rb_server_variables, :action => :project, :project_id => @project.id)
   page.driver.response.status.should == 200 if attempt == ''
 end
