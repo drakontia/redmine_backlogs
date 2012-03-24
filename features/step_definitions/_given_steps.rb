@@ -183,6 +183,8 @@ Given /^I have defined the following sprints:$/ do |table|
       end
     end
 
+    version['sharing'] = 'none' if version['sharing'].nil?
+
     RbSprint.create! version
   end
 end
@@ -259,7 +261,7 @@ end
 
 Given /^I have defined the following stories in the following sprints:$/ do |table|
   table.hashes.each do |story|
-    params = initialize_story_params
+    params = initialize_story_params(story.delete('project_id'))
     params['subject'] = story.delete('subject')
     sprint = RbSprint.find(:first, :conditions => [ "name=?", story.delete('sprint') ])
     params['fixed_version_id'] = sprint.id
@@ -319,10 +321,10 @@ Given /^I have defined the following tasks:$/ do |table|
     # however, should NOT bypass the controller
     if offset
       Timecop.travel(story.created_on + offset) do
-        RbTask.create_with_relationships(params, @user.id, @project.id)
+        RbTask.create_with_relationships(params, @user.id, story.project_id)
       end
     else
-      RbTask.create_with_relationships(params, @user.id, @project.id)
+      RbTask.create_with_relationships(params, @user.id, story.project_id)
     end
   end
 end
@@ -330,9 +332,11 @@ end
 Given /^I have defined the following impediments:$/ do |table|
   table.hashes.each do |impediment|
     sprint = RbSprint.find(:first, :conditions => { :name => impediment.delete('sprint') })
-    params = initialize_impediment_params(sprint.id)
-
+    params = initialize_impediment_params({ "fixed_version_id" => sprint.id })
+    params['fixed_version_id'] = sprint
     params['subject'] = impediment.delete('subject')
+## TODO: blocks might contain several stories...
+    story = RbStory.find_by_subject(impediment['blocks'])
     params['blocks']  = RbStory.find(:all, :conditions => ['subject in (?)', impediment.delete('blocks').split(', ')]).map{ |s| s.id }.join(',')
 
     impediment.should == {}
@@ -340,7 +344,8 @@ Given /^I have defined the following impediments:$/ do |table|
     # NOTE: We're bypassing the controller here because we're just
     # setting up the database for the actual tests. The actual tests,
     # however, should NOT bypass the controller
-    RbTask.create_with_relationships(params, @user.id, @project.id, true).should_not be_nil
+## TODO: Which project should the impediment be created for?
+    RbTask.create_with_relationships(params, @user.id, story.project_id, true).should_not be_nil
   end
 
 end

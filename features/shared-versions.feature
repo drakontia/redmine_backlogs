@@ -26,7 +26,7 @@ Feature: Shared versions
         | 4        | Story 4 | Sprint 002 | private-child |
 
       And I have defined the following tasks:
-        | subject | parent  |
+        | subject | story  |
         | Task 1  | Story 1 |
 
       And I have defined the following impediments:

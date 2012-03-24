@@ -13,7 +13,7 @@ def time_offset(o)
   return ((((d.to_i * 24) + h.to_i) * 60) + m.to_i) * 60 * (sign == '-' ? -1 : 1)
 end
 
-def initialize_story_params
+def initialize_story_params(project_id = nil)
   @story = HashWithIndifferentAccess.new(RbStory.new.attributes)
   @story['project_id'] = project_id ? Project.find(project_id).id : @project.id
   @story['tracker_id'] = RbStory.trackers.first
@@ -23,7 +23,7 @@ end
 
 def initialize_task_params(story_id)
   params = HashWithIndifferentAccess.new(RbTask.new.attributes)
-  params['project_id'] = @project.id
+  params['project_id'] = RbStory.find_by_id(story_id).project_id
   params['tracker_id'] = RbTask.tracker
   params['author_id']  = @user.id
   params['parent_issue_id'] = story_id
