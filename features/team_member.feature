@@ -107,6 +107,6 @@ Feature: Team Member
       And I set the subject of the task to A Second New Task
       And I set the estimated_hours of the task to 2
      When I create the task
-     Then task A Whole New Task should have estimated_hours set to 3
-      And task A Whole New Task should have estimated_hours set to 8
+     Then task A Whole New Task should have estimated_hours set to 8
+      And story Story 1 should have estimated_hours set to 10
       And story Story 1 should have estimated_hours set to 10
