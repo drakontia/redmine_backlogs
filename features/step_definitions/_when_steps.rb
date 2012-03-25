@@ -1,7 +1,9 @@
-When /^I (try to )?create the impediment$/ do |attempt|
-  page.driver.process :post, 
-                      url_for(:controller => :rb_impediments, :action => :create),
-                      @impediment_params
+When /^I (try to )?create the impediment( on project )?(.+)$/ do |attempt, on, project|
+  params = @impediment_params.dup
+  params['project_id'] = Project.find(project) if project != ''
+
+  page.driver.process :post, url_for(:controller => :rb_impediments, :action => :create), params
+
   page.driver.response.status.should == 200 if attempt == ''
 end
 
