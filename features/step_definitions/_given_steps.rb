@@ -333,7 +333,7 @@ Given /^I have defined the following impediments:$/ do |table|
   table.hashes.each do |impediment|
     sprint = RbSprint.find(:first, :conditions => { :name => impediment.delete('sprint') })
     params = initialize_impediment_params({ "fixed_version_id" => sprint.id })
-    params['fixed_version_id'] = sprint
+    params['fixed_version_id'] = sprint.id
     params['subject'] = impediment.delete('subject')
 ## TODO: blocks might contain several stories...
     story = RbStory.find_by_subject(impediment['blocks'])

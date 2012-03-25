@@ -41,7 +41,7 @@ def initialize_impediment_params(attributes)
   params = HashWithIndifferentAccess.new(RbTask.new.attributes).merge(attributes)
   params['tracker_id'] = RbTask.tracker
   params['author_id']  = @user.id
-  params['status_id'] = IssueStatus.default
+  params['status_id'] = IssueStatus.default.id
   params['project_id'] = Version.find(params['fixed_version_id']).project.id if params['fixed_version_id']
   params
 end

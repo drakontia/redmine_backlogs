@@ -1,4 +1,4 @@
-When /^I (try to )?create the impediment( on project )?(.+)$/ do |attempt, on, project|
+When /^I (try to )?create the impediment( on project )?(.*)$/ do |attempt, on, project|
   params = @impediment_params.dup
   params['project_id'] = Project.find(project) if project != ''
 
