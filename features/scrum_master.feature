@@ -7,7 +7,8 @@ Feature: Scrum Master
     Given the ecookbook project has the backlogs plugin enabled
       And no versions or issues exist
       And I am a scrum master of the project
-      And the project has the following sprints:
+      And I have deleted all existing issues
+      And I have defined the following sprints:
         | name       | sprint_start_date | effective_date  |
         | Sprint 001 | 2010-01-01        | 2010-01-31      |
         | Sprint 002 | 2010-02-01        | 2010-02-28      |
@@ -92,17 +93,24 @@ Feature: Scrum Master
      When I move the story named Story A below Story B
      Then Story A should be in the 2nd position of the sprint named Sprint 001
       And Story B should be the higher item of Story A
-     
-  Scenario: Request the project calendar feed
-    Given I have set my API access key
-      And I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
+
+  Scenario: Authorized request to the project calendar feed
+    Given I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
+      And I have set my API access key
       And I am logged out
-     When I try to download the calendar feed, it should succeed
-      And the request should complete successfully
-    Given I have guessed an API access key
-     When I try to download the calendar feed, it should fail
-      And the request should complete successfully
-     
+     When I try to download the calendar feed
+     Then the request should complete successfully
+      And calendar feed download should succeed
+
+  Scenario: Unauthorized request to the project calendar feed
+    Given I move the story named Story 4 down to the 1st position of the sprint named Sprint 004
+      And I have set my API access key
+      And I am logged out
+      And I have guessed an API access key
+     When I try to download the calendar feed
+     Then the request should complete successfully
+      And calendar feed download should fail
+
   Scenario: Download printable cards for the product backlog
     Given I have selected card label stock Zweckform 3474
       And I am viewing the issues sidebar

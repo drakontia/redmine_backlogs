@@ -165,8 +165,8 @@ Given /^I have selected the (.*) project$/ do |project_id|
   @project = get_project(project_id)
 end
 
-Given /^the project has the following sprints?:$/ do |table|
-  @project.shared_versions.each {|s| s.destroy }
+Given /^I have defined the following sprints:$/ do |table|
+  @project.versions.delete_all
   table.hashes.each do |version|
     version['project_id'] = Project.find(version['project_id'] || @project.id).id
     ['effective_date', 'sprint_start_date'].each do |date_attr|
@@ -242,7 +242,7 @@ Given /^I have deleted all existing issues$/ do
   @project.issues.delete_all
 end
 
-Given /^the project has the following stories in the product backlog:$/ do |table|
+Given /^I have defined the following stories in the product backlog:$/ do |table|
   table.hashes.each do |story|
     params = initialize_story_params
     params['subject'] = story.delete('subject')
@@ -257,7 +257,7 @@ Given /^the project has the following stories in the product backlog:$/ do |tabl
   end
 end
 
-Given /^the project has the following stories in the following sprints:$/ do |table|
+Given /^I have defined the following stories in the following sprints:$/ do |table|
   table.hashes.each do |story|
     params = initialize_story_params
     params['subject'] = story.delete('subject')
