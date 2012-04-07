@@ -13,7 +13,9 @@ class RbTask < Issue
     if Issue.const_defined? "SAFE_ATTRIBUTES"
       safe_attributes_names = RbTask::SAFE_ATTRIBUTES
     else
-      safe_attributes_names = Issue.new.safe_attribute_names
+      safe_attributes_names = Issue.new(
+        :project_id=>params[:project_id] # required to verify "safeness"
+      ).safe_attribute_names
     end
     attribs = params.select {|k,v| safe_attributes_names.include?(k) }
     attribs = Hash[*attribs.flatten] if attribs.is_a?(Array)
@@ -86,7 +88,7 @@ class RbTask < Issue
                             true
                           end
 
-    if valid_relationships && result = journalized_update_attributes!(attribs)
+    if valid_relationships && result = self.becomes(Issue).journalized_update_attributes!(attribs)
       move_before params[:next] unless is_impediment # impediments are not hosted under a single parent, so you can't tree-order them
       update_blocked_list params[:blocks].split(/\D+/) if params[:blocks]
 
