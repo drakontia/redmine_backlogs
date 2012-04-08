@@ -455,7 +455,7 @@
 /*  position:absolute;
   top:1px;*/
   float:left;
-  width:32em;
+  width:30em;
   margin-right:2em;
   white-space:nowrap;
 }
@@ -497,12 +497,12 @@
 /*  height:15px;
   right:10px;
   overflow:hidden;*/
-  padding:5px 15px 4px 9px;
+  padding:5px 5px 4px 5px;
 /*  position:absolute;*/
   text-align:right;
 /*  top:1px;*/
   float: right;
-  width:2em;
+  width:3em;
 }
 #backlogs_container .stories .story .story_points .v {
   display:none;
