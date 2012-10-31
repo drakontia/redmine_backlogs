@@ -55,8 +55,8 @@ Feature: Product Owner
     Given I view the release page
      Then I should see "Release Planning"
      When I follow "Rel 1"
-     Then I should see "Delete" within ".contextual"
-     When I follow "Delete" within ".contextual"
+     Then I should see "Delete" within "#content"
+     When I follow "Delete" within "#content"
      Then I should see "Release Planning"
      Then I should not see "Rel 1"
 
@@ -65,8 +65,8 @@ Feature: Product Owner
     Given I view the release page
      Then I should see "Release Planning"
      When I follow "Rel 1"
-     Then I should see "Edit" within ".contextual"
-     When I follow "Edit" within ".contextual"
+     Then I should see "Edit" within "#content"
+     When I follow "Edit" within "#content"
      Then I should see "Release" within "#content"
      When I fill in "release_name" with "A changed release"
       And I press "Save"
