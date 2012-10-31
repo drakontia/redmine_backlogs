@@ -54,7 +54,7 @@ Feature: Product Owner
   Scenario: Delete a release
     Given I view the release page
      Then I should see "Release Planning"
-     When I follow "Rel 1"
+     When I follow "Rel 1" within "#content"
      Then I should see "Delete" within "#content"
      When I follow "Delete" within "#content"
      Then I should see "Release Planning"
@@ -64,7 +64,7 @@ Feature: Product Owner
   Scenario: Edit a release
     Given I view the release page
      Then I should see "Release Planning"
-     When I follow "Rel 1"
+     When I follow "Rel 1" within "#content"
      Then I should see "Edit" within "#content"
      When I follow "Edit" within "#content"
      Then I should see "Release" within "#content"
